@@ -2,7 +2,7 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
-
+import { useRef } from 'react'
 function UsernameForm({ onSubmitUsername }) {
   // 🐨 add a submit event handler here (`handleSubmit`).
   // 💰 Make sure to accept the `event` as an argument and call
@@ -11,7 +11,7 @@ function UsernameForm({ onSubmitUsername }) {
   // 📜 https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
   const handleSubmit = (event) => {
     event.preventDefault()
-    onSubmitUsername(event.target[0].value)
+    onSubmitUsername(usernameRef.current.value)
   }
   // 🐨 get the value from the username input (using whichever method
   // you prefer from the options mentioned in the instructions)
@@ -22,11 +22,13 @@ function UsernameForm({ onSubmitUsername }) {
 
   // 🐨 make sure to associate the label to the input.
   // to do so, set the value of 'htmlFor' prop of the label to the id of input
+
+  const usernameRef = useRef("")
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label forHtml='username'>Username:</label>
-        <input id='username' type="text" />
+        <input id='username' type="text" ref={usernameRef} />
       </div>
       <button type="submit">Submit</button>
     </form>

@@ -2,7 +2,7 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 function UsernameForm({ onSubmitUsername }) {
   // 🐨 add a submit event handler here (`handleSubmit`).
   // 💰 Make sure to accept the `event` as an argument and call
@@ -11,7 +11,7 @@ function UsernameForm({ onSubmitUsername }) {
   // 📜 https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
   const handleSubmit = (event) => {
     event.preventDefault()
-    onSubmitUsername(usernameRef.current.value)
+    onSubmitUsername(username)
   }
   // 🐨 get the value from the username input (using whichever method
   // you prefer from the options mentioned in the instructions)
@@ -24,19 +24,17 @@ function UsernameForm({ onSubmitUsername }) {
   // to do so, set the value of 'htmlFor' prop of the label to the id of input
   const handleChange = (event) => {
     const value = event.target.value;
-    setError((value.toLowerCase() == value) ? null : "Username must be lowe case!")
+    setUsername(value.toLowerCase())
   }
 
-  const [error, setError] = useState()
-  const usernameRef = useRef("")
+  const [username, setUsername] = useState()
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label forHtml='username'>Username:</label>
-        <input id='username' type="text" ref={usernameRef} onChange={handleChange} />
+        <label htmlFor='username'>Username:</label>
+        <input id='username' type="text" value={username} onChange={handleChange} />
       </div>
-      <div>{error}</div>
-      <button disabled={Boolean(error)} type="submit">Submit</button>
+      <button type="submit">Submit</button>
     </form>
   )
 }

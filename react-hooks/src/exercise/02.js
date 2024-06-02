@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react'
 
 const useLocalStorage = (key, initValue = '') => {
   const [value, setValue] = useState(
-    () => localStorage.getItem(key) ?? initValue
+    () => (JSON.parse(localStorage.getItem(key)) ?? [initValue])[0]
   )
 
   useEffect(() => {
-    localStorage.setItem(key, value)
+    localStorage.setItem(key, JSON.stringify([value]))
   }, [key, value])
 
   return [value, setValue]

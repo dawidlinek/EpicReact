@@ -19,7 +19,7 @@ const useLocalStorage = (key, initValue = '') => {
 function Greeting({ initialName = '' }) {
   // 🐨 initialize the state to the value from localStorage
   // 💰 window.localStorage.getItem('name') ?? initialName
-  const [name, setName] = useLocalStorage('name')
+  const [name, setName] = useLocalStorage('name', initialName)
   function handleChange(event) {
     setName(event.target.value)
   }

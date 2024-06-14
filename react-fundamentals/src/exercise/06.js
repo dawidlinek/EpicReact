@@ -4,6 +4,7 @@
 import * as React from 'react'
 import { useState } from 'react'
 function UsernameForm({ onSubmitUsername }) {
+  const [username, setUsername] = useState()
   // 🐨 add a submit event handler here (`handleSubmit`).
   // 💰 Make sure to accept the `event` as an argument and call
   // `event.preventDefault()` to prevent the default behavior of form submit
@@ -27,7 +28,6 @@ function UsernameForm({ onSubmitUsername }) {
     setUsername(value.toLowerCase())
   }
 
-  const [username, setUsername] = useState()
   return (
     <form onSubmit={handleSubmit}>
       <div>

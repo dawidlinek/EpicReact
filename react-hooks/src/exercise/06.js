@@ -7,21 +7,7 @@ import * as React from 'react'
 // PokemonInfoFallback: the thing we show while we're loading the pokemon info
 // PokemonDataView: the stuff we use to display the pokemon info
 import { PokemonDataView, PokemonForm, PokemonInfoFallback, fetchPokemon } from '../pokemon'
-
-class ErrorBoundary extends React.Component {
-  state = { error: null }
-  static getDerivedStateFromError(error) {
-    return { error }
-  }
-  render() {
-    const { error } = this.state
-    if (error) {
-      return <this.props.FallbackComponent error={error} />
-    }
-
-    return this.props.children
-  }
-}
+import { ErrorBoundary } from 'react-error-boundary'
 
 function ErrorFallback({error}){
  return <div role="alert">Error: {error.message}</div>

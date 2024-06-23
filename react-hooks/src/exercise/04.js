@@ -44,12 +44,11 @@ function Game() {
   const currentSquares = history[currentStep]
 
   const moves = history.map((step, move) => {
-    const desc = move === 0 ? 'Go to game start' : `Go to move #${move}`
     const isCurrentStep = move === history.length - 1
     return <li key={move}>
       <button disabled={isCurrentStep}
         onClick={() => setCurrentStep(move)}
-      >{desc} {isCurrentStep ? '(current)' : null}</button>
+      >{move === 0 ? 'Go to game start' : `Go to move #${move}`} {isCurrentStep ? '(current)' : null}</button>
     </li>
   })
   // 🐨 We'll need the following bits of derived state:

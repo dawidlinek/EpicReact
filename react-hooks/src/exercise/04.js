@@ -35,10 +35,10 @@ function Board({ onClick, squares }) {
     </div>
   )
 }
-
+const defaultState = Array(9).fill(null)
 function Game() {
   // 🐨 squares is the state for this component. Add useState for squares
-  const [history, setHistory] = React.useState([Array(9).fill(null)])
+  const [history, setHistory] = React.useState([defaultState])
   const [currentStep, setCurrentStep] = React.useState(0)
 
   const currentSquares = history[currentStep]
@@ -91,7 +91,7 @@ function Game() {
   function restart() {
     // 🐨 reset the squares
     // 💰 `Array(9).fill(null)` will do it!
-    setHistory([Array(9).fill(null)])
+    setHistory([defaultState])
     setCurrentStep(0)
   }
   return (

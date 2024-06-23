@@ -23,8 +23,8 @@ function PokemonInfo({ pokemonName }) {
 
   const [{ status, pokemon, error }, setState] = React.useState({
     status: pokemonName ? 'pending' : 'idle',
-    pokemon: null,
-    error: null,
+    pokemon: undefined,
+    error: undefined,
   })
   // 🐨 use React.useEffect where the callback should be called whenever the
   // pokemon name changes.

@@ -35,9 +35,10 @@ function PokemonInfo({ pokemonName }) {
     fetchPokemon(pokemonName).then(
       pokemonData => {
         setState({ pokemon: pokemonData, status: 'resolved' })
-      },
+      }
+    ).catch(
       error => {
-        setState({ error: error, status: 'rejected' })
+        setState({ error, status: 'rejected' })
       }
     )
 
@@ -88,7 +89,7 @@ function App() {
           onReset={handleReset}
           FallbackComponent={ErrorFallback}
           resetKeys={[pokemonName]}
-          >
+        >
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>

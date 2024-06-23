@@ -38,8 +38,8 @@ function Board({ onClick, squares }) {
 const defaultState = Array(9).fill(null)
 function Game() {
   // 🐨 squares is the state for this component. Add useState for squares
-  const [history, setHistory] = React.useState([defaultState])
-  const [currentStep, setCurrentStep] = React.useState(0)
+  const [history, setHistory] = useLocalStorageState('history', [defaultState])
+  const [currentStep, setCurrentStep] = useLocalStorageState('step', 0)
 
   const currentSquares = history[currentStep]
 

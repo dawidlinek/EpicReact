@@ -61,11 +61,12 @@ function PokemonInfo({ pokemonName }) {
     return 'Submit a pokemon'
   } else if (status === 'pending') {
     return <PokemonInfoFallback name={pokemonName} />
-  } else if (status === 'rejected') {
-    throw error
   } else if (status === 'resolved') {
     return <PokemonDataView pokemon={pokemon} />
   }
+
+  throw error
+  
 }
 
 function App() {

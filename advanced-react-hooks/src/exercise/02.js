@@ -31,18 +31,37 @@ function asyncReducer(state, action) {
   }
 }
 
+function useSafeDispatch(unsafeDispatch) {
+  const mountedRef = React.useRef(false)
+  React.useEffect(()=>{
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+    }
+  },[])
+
+  return React.useCallback((...args) => {
+    if (mountedRef.current){
+      unsafeDispatch(...args)
+    }
+  },[unsafeDispatch])
+ 
+}
+
 
 function useAsync(asyncCallback, initialState) {
 
   // -------------------------- start --------------------------
 
-  const [state, dispatch] = React.useReducer(asyncReducer, {
+  const [state, unsafeDispatch] = React.useReducer(asyncReducer, {
     status: 'idle',
     // 🐨 this will need to be "data" instead of "pokemon"
     data: null,
     error: null,
     ...initialState
   })
+
+  const dispatch = useSafeDispatch(unsafeDispatch)
 
   const run = React.useCallback(promise => {
     dispatch({ type: 'pending' })

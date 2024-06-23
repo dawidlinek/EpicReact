@@ -46,7 +46,7 @@ function Game() {
   const moves = history.map((step, move) => {
     const desc = move === 0 ? 'Go to game start' : `Go to move #${move}`
     const isCurrentStep = move === history.length - 1
-    return <li key={step}>
+    return <li key={move}>
       <button disabled={isCurrentStep}
         onClick={() => setCurrentStep(move)}
       >{desc} {isCurrentStep ? '(current)' : null}</button>

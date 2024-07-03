@@ -5,7 +5,7 @@ import * as React from 'react'
 
 function useMedia(query, initialState = false) {
   const [state, setState] = React.useState(initialState)
-  // 🐨 call React.useDebugValue here.
+  React.useDebugValue(`\`${query}\` => ${state}`)
   // 💰 here's the formatted label I use: `\`${query}\` => ${state}`
 
   React.useEffect(() => {
@@ -36,7 +36,7 @@ function Box() {
   const isSmall = useMedia('(max-width: 699px)')
   const color = isBig ? 'green' : isMedium ? 'yellow' : isSmall ? 'red' : null
 
-  return <div style={{width: 200, height: 200, backgroundColor: color}} />
+  return <div style={{ width: 200, height: 200, backgroundColor: color }} />
 }
 
 function App() {

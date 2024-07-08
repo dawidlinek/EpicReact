@@ -4,10 +4,9 @@
 import * as React from 'react'
 // 💣 remove this import
 // import Globe from '../globe'
-const loadGlobe = () => import('../globe')
 // 🐨 use React.lazy to create a Globe component which uses a dynamic import
 // to get the Globe component from the '../globe' module.
-const Globe = React.lazy(loadGlobe)
+const Globe = React.lazy(() => import(/* webpackPrefetch: true */'../globe'))
 
 
 
@@ -29,10 +28,7 @@ function App() {
         padding: '2rem',
       }}
     >
-      <label style={{ marginBottom: '1rem' }}
-      onMouseEnter={loadGlobe}
-      onFocus={loadGlobe}
-      >
+      <label style={{ marginBottom: '1rem' }}>
         <input
           type="checkbox"
           checked={showGlobe}

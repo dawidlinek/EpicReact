@@ -6,12 +6,44 @@ import * as React from 'react'
 // fetchPokemon: the function we call to get the pokemon info
 // PokemonInfoFallback: the thing we show while we're loading the pokemon info
 // PokemonDataView: the stuff we use to display the pokemon info
-import {PokemonForm} from '../pokemon'
+import { PokemonDataView, PokemonForm, PokemonInfoFallback, fetchPokemon } from '../pokemon'
+import { ErrorBoundary } from 'react-error-boundary'
 
-function PokemonInfo({pokemonName}) {
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <>
+      <div role="alert">Error: {error.message}</div>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </>
+  )
+}
+
+function PokemonInfo({ pokemonName }) {
   // 🐨 Have state for the pokemon (null)
+
+  const [{ status, pokemon, error }, setState] = React.useState({
+    status: pokemonName ? 'pending' : 'idle',
+    pokemon: undefined,
+    error: undefined,
+  })
   // 🐨 use React.useEffect where the callback should be called whenever the
   // pokemon name changes.
+  React.useEffect(() => {
+    if (!pokemonName) return
+
+    setState({ status: 'pending' })
+    fetchPokemon(pokemonName).then(
+      pokemonData => {
+        setState({ pokemon: pokemonData, status: 'resolved' })
+      }
+    ).catch(
+      error => {
+        setState({ error, status: 'rejected' })
+      }
+    )
+
+
+  }, [pokemonName])
   // 💰 DON'T FORGET THE DEPENDENCIES ARRAY!
   // 💰 if the pokemonName is falsy (an empty string) then don't bother making the request (exit early).
   // 🐨 before calling `fetchPokemon`, clear the current pokemon state by setting it to null.
@@ -25,8 +57,16 @@ function PokemonInfo({pokemonName}) {
   //   2. pokemonName but no pokemon: <PokemonInfoFallback name={pokemonName} />
   //   3. pokemon: <PokemonDataView pokemon={pokemon} />
 
-  // 💣 remove this
-  return 'TODO'
+  if (status === 'idle') {
+    return 'Submit a pokemon'
+  } else if (status === 'pending') {
+    return <PokemonInfoFallback name={pokemonName} />
+  } else if (status === 'resolved') {
+    return <PokemonDataView pokemon={pokemon} />
+  }
+
+  throw error
+  
 }
 
 function App() {
@@ -36,12 +76,23 @@ function App() {
     setPokemonName(newPokemonName)
   }
 
+  function handleReset() {
+    setPokemonName('')
+  }
+
   return (
     <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        <PokemonInfo pokemonName={pokemonName} />
+        <ErrorBoundary
+          key={pokemonName}
+          onReset={handleReset}
+          FallbackComponent={ErrorFallback}
+          resetKeys={[pokemonName]}
+        >
+          <PokemonInfo pokemonName={pokemonName} />
+        </ErrorBoundary>
       </div>
     </div>
   )

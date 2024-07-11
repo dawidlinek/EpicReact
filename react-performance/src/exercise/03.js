@@ -21,8 +21,8 @@ const Menu = React.memo(({
           getItemProps={getItemProps}
           item={item}
           index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
+          isSelected={selectedItem?.id === item.id}
+          isHighlighted={highlightedIndex === index}
         >
           {item.name}
         </ListItem>
@@ -103,8 +103,8 @@ function App() {
           items={items}
           getMenuProps={getMenuProps}
           getItemProps={getItemProps}
-          isHighlighted={selectedItem?.id === item.id}
-          isSelected={highlightedIndex === index}
+          highlightedIndex={highlightedIndex}
+          selectedItem={selectedItem}
         />
       </div>
     </div>

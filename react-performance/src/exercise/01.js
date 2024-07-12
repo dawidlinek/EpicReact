@@ -4,10 +4,11 @@
 import * as React from 'react'
 // 💣 remove this import
 // import Globe from '../globe'
-
 // 🐨 use React.lazy to create a Globe component which uses a dynamic import
 // to get the Globe component from the '../globe' module.
-const Globe = React.lazy(() => import('../globe'))
+const Globe = React.lazy(() => import(/* webpackPrefetch: true */'../globe'))
+
+
 
 function App() {
   const [showGlobe, setShowGlobe] = React.useState(false)

@@ -81,6 +81,9 @@ function dogReducer(state, action) {
     case 'TYPED_IN_DOG_INPUT': {
       return { ...state, dogName: action.dogName }
     }
+    default:{
+      throw new Error('Action type not handled')
+    }
   }
 }
 
@@ -102,9 +105,13 @@ function Grid() {
 }
 Grid = React.memo(Grid)
 
-function Cell({ row, column }) {
+let Cell = React.memo(({ row, column }) => {
   const state = useAppState()
   const cell = state.grid[row][column]
+  return <CellImplementation cell={cell} row={row} column={column} />
+})
+
+function CellImplementation({ cell, row, column }) {
   const dispatch = useAppDispatch()
   const handleClick = () => dispatch({ type: 'UPDATE_GRID_CELL', row, column })
   return (

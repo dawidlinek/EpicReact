@@ -81,10 +81,18 @@ function dogReducer(state, action) {
     case 'TYPED_IN_DOG_INPUT': {
       return { ...state, dogName: action.dogName }
     }
-    default:{
+    default: {
       throw new Error('Action type not handled')
     }
   }
+}
+
+function withStateSlice(Component, slice) {
+  const MemoComponent = React.memo(Component)
+  return React.memo(React.forwardRef((props, ref) => {
+    const state = useAppState()
+    return <MemoComponent ref={ref} state={slice(state, props)} {...props} />
+  }))
 }
 
 function Grid() {
@@ -105,13 +113,9 @@ function Grid() {
 }
 Grid = React.memo(Grid)
 
-let Cell = React.memo(({ row, column }) => {
-  const state = useAppState()
-  const cell = state.grid[row][column]
-  return <CellImplementation cell={cell} row={row} column={column} />
-})
 
-function CellImplementation({ cell, row, column }) {
+
+function Cell({ state: cell, row, column }) {
   const dispatch = useAppDispatch()
   const handleClick = () => dispatch({ type: 'UPDATE_GRID_CELL', row, column })
   return (
@@ -127,7 +131,7 @@ function CellImplementation({ cell, row, column }) {
     </button>
   )
 }
-Cell = React.memo(Cell)
+Cell = withStateSlice(Cell, (state, { row, column }) => state.grid[row][column])
 
 function DogNameInput() {
   // 🐨 replace the useAppState and useAppDispatch with a normal useState here
